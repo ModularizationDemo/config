@@ -29,7 +29,7 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = "Classes/**/*.h"
 
-  # s.resource  = "icon.png"
+  s.resources  = "__ProjectName__/__ProjectName__/**/*.{storyboard,xib}", "__ProjectName__/Assets.xcassets"
   # s.resources = "Resources/*.png"
 
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
