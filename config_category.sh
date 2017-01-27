@@ -10,6 +10,7 @@ httpsRepo=""
 sshRepo=""
 homePage=""
 confirmed="n"
+organizationName=""
 
 getAuthor() {
     read -p "请输入作者名: " author
@@ -24,6 +25,14 @@ getProjectName() {
 
     if test -z "$projectName"; then
         getProjectName
+    fi
+}
+
+getOrganizationName() {
+    read -p "请输入组织名: " organizationName
+
+    if test -z "$organizationName"; then
+        getOrganizationName
     fi
 }
 
@@ -54,16 +63,18 @@ getHomePage() {
 getInfomation() {
     getAuthor
     getProjectName
+    getOrganizationName
     getHTTPSRepo
     getSSHRepo
     getHomePage
 
     echo -e "\n${Default}================================================"
-    echo -e "  Author        :  ${Cyan}${author}${Default}"
-    echo -e "  Project Name  :  ${Cyan}${projectName}${Default}"
-    echo -e "  HTTPS Repo    :  ${Cyan}${httpsRepo}${Default}"
-    echo -e "  SSH Repo      :  ${Cyan}${sshRepo}${Default}"
-    echo -e "  Home Page URL :  ${Cyan}${homePage}${Default}"
+    echo -e "  Author             :  ${Cyan}${author}${Default}"
+    echo -e "  Project Name       :  ${Cyan}${projectName}${Default}"
+    echo -e "  Organization Name  :  ${Cyan}${organizationName}${Default}"
+    echo -e "  HTTPS Repo         :  ${Cyan}${httpsRepo}${Default}"
+    echo -e "  SSH Repo           :  ${Cyan}${sshRepo}${Default}"
+    echo -e "  Home Page URL      :  ${Cyan}${homePage}${Default}"
     echo -e "================================================\n"
 }
 
@@ -76,7 +87,11 @@ do
     read -p "确定? (y/n):" confirmed
 done
 
-mkdir -p "../${projectName}/${projectName}/${projectName}"
+cp -r "./Temp" "../${projectName}"
+mv "../${projectName}/Temp" "../${projectName}/${projectName}"
+mv "../${projectName}/${projectName}/Temp" "../${projectName}/${projectName}/${projectName}"
+mv "../${projectName}/Temp.xcodeproj" "../${projectName}/${projectName}.xcodeproj"
+
 
 licenseFilePath="../${projectName}/FILE_LICENSE"
 gitignoreFilePath="../${projectName}/.gitignore"
@@ -84,6 +99,8 @@ specFilePath="../${projectName}/${projectName}.podspec"
 readmeFilePath="../${projectName}/readme.md"
 uploadFilePath="../${projectName}/upload.sh"
 podfilePath="../${projectName}/Podfile"
+pbxprojPath="../${projectName}/${projectName}.xcodeproj/project.pbxproj"
+xcworkspacedataPath="../${projectName}/${projectName}.xcodeproj/project.xcworkspace/contents.xcworkspacedata"
 
 echo "copy to $licenseFilePath"
 cp -f ./templates_category/FILE_LICENSE "$licenseFilePath"
@@ -109,6 +126,12 @@ sed -i "" "s%__Author__%${author}%g" "$specFilePath"
 sed -i "" "s%__HomePage__%${homePage}%g"      "$specFilePath"
 sed -i "" "s%__SSHRepo__%${sshRepo}%g"    "$specFilePath"
 sed -i "" "s%__SSHRepo__%${sshRepo}%g"    "$podfilePath"
+
+sed -i "" "s%__ProjectName__%${projectName}%g" "$xcworkspacedataPath"
+
+sed -i "" "s%__ProjectName__%${projectName}%g" "$pbxprojPath"
+sed -i "" "s%__OrganizationName__%${organizationName}%g" "$pbxprojPath"
+
 echo "edit finished"
 
 echo "cleaning..."
