@@ -46,7 +46,7 @@ Pod::Spec.new do |s|
   # s.dependency "HLNetworking"
   # s.dependency "HLNetworking+Lovek12"
   # s.dependency "HLBaseUser"
-  # s.dependency "Lothar
+  s.dependency "Lothar"
   # s.dependency "UMengUShare/Social/Sina"
   # s.dependency "UMengUShare/Social/WeChat"
   # s.dependency "UMengUShare/Social/QQ""
